@@ -1,12 +1,14 @@
 // src/layouts/MainLayout.jsx
 import { Link, Outlet, useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Home, Users, Map, Settings, Network, Server, Menu } from "lucide-react";
+import { Home, Users, Map, Settings, Network, Server, Menu, Wifi } from "lucide-react";
+import Header from "../components/Header";
 
 const menu = [
   { name: "Dashboard", path: "/", icon: <Home size={18} /> },
   { name: "Monitoring OLT", path: "/olt", icon: <Server size={18} /> },
   { name: "Monitoring Mikrotik", path: "/mikrotik", icon: <Network size={18} /> },
+  { name: "PPPoE Users", path: "/pppoe", icon: <Wifi size={18} /> },
   { name: "Peta", path: "/map", icon: <Map size={18} /> },
   { name: "Pelanggan", path: "/pelanggan", icon: <Users size={18} /> },
   { name: "Pengaturan", path: "/settings", icon: <Settings size={18} /> }
@@ -15,6 +17,8 @@ const menu = [
 export default function MainLayout() {
   const { pathname } = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const isMapPage = pathname === "/map";
 
   useEffect(() => {
     document.title = menu.find((m) => m.path === pathname)?.name || "NOC ISP";
@@ -47,7 +51,7 @@ export default function MainLayout() {
       </aside>
 
       {/* Overlay mobile */}
-      {sidebarOpen && (
+      {sidebarOpen && !isMapPage && (
         <div
           className="fixed inset-0 bg-black/40 z-30 md:hidden"
           onClick={() => setSidebarOpen(false)}
@@ -57,14 +61,15 @@ export default function MainLayout() {
       {/* Main content */}
       <div className="flex-1 flex flex-col overflow-auto">
         {/* Topbar Header */}
-        <div className="p-4 border-b border-zinc-800 flex justify-between items-center md:hidden">
+          <div className="p-4 border-b border-zinc-800 flex justify-between items-center md:hidden">
           <button onClick={() => setSidebarOpen(true)}>
             <Menu className="text-white w-6 h-6" />
           </button>
-          <h2 className="text-white text-lg font-bold">NOC ISP</h2>
-        </div>
+        <h2 className="text-white text-lg font-bold">NOC ISP</h2>
+      </div>
 
-        <main className="flex-1 p-6 overflow-auto">
+        <main className={`flex-1 p-6 overflow-auto`}>
+            <Header />
           <Outlet />
         </main>
       </div>

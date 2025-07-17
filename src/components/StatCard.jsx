@@ -1,10 +1,14 @@
-import { Wifi, XCircle, AlertTriangle, Cpu } from "lucide-react";
+import { Wifi, XCircle, AlertTriangle, Cpu, MemoryStick, Users, Layers } from "lucide-react";
+
 
 const iconMap = {
   wifi: Wifi,
   "x-circle": XCircle,
   "alert-triangle": AlertTriangle,
   cpu: Cpu,
+  memory: MemoryStick,
+  users: Users,
+  layers: Layers,
 };
 
 export default function StatCard({ title, value, icon, color }) {
